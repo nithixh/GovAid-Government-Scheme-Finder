@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - GovAid{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="display-6 fw-bold">
+                        <i class="fas fa-{% if role == 'student' %}graduation-cap{% else %}rocket{% endif %} me-2"></i>
+                        {% if role == 'student' %}Scholarships{% else %}Funding Schemes{% endif %} Dashboard
+                    </h1>
+                    <p class="lead text-muted">
+                        {% if role == 'student' %}Discover scholarships tailored for you{% else %}Find funding opportunities for your startup{% endif %}
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ url_for('profile') }}" class="btn btn-outline-{% if role == 'student' %}primary{% else %}success{% endif %}">
+                        <i class="fas fa-edit me-1"></i>Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if schemes %}
+        <div class="row">
+            <div class="col-12 mb-3">
+                <div class="alert alert-{% if role == 'student' %}primary{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Great news!</strong> We found {{ schemes|length }} 
+                    {% if role == 'student' %}scholarships{% else %}funding schemes{% endif %} matching your profile.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for scheme in schemes %}
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-header bg-{% if role == 'student' %}primary{% else %}success{% endif %} text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-{% if role == 'student' %}award{% else %}handshake{% endif %} me-2"></i>
+                                {{ scheme.name }}
+                            </h5>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3">
+                                <h6 class="text-muted">
+                                    <i class="fas fa-building me-1"></i>Provider
+                                </h6>
+                                <p class="mb-0">{{ scheme.provider }}</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <h6 class="text-muted">
+                                    <i class="fas fa-check-circle me-1"></i>Eligibility
+                                </h6>
+                                {% set points = scheme.eligibility.split(';') %}
+                                    <ul class="mb-0">
+                                        {% for p in points %}
+                                            {% if p.strip() %}
+                                            <li>{{ p.strip() }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+
+                            </div>
+
+                            <div class="mb-3 flex-grow-1">
+                                <h6 class="text-muted">
+                                    <i class="fas fa-gift me-1"></i>Benefits
+                                </h6>
+                                <p class="mb-0">{{ scheme.benefits }}</p>
+                            </div>
+
+                            <div class="mt-auto">
+                                <a href="{{ scheme.link }}" target="_blank" 
+                                   class="btn btn-{% if role == 'student' %}primary{% else %}success{% endif %} w-100">
+                                    <i class="fas fa-external-link-alt me-2"></i>Apply Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Important Note
+                        </h5>
+                        <p class="card-text">
+                            The schemes shown above are filtered based on your profile information. 
+                            Please verify the eligibility criteria and application deadlines on the official websites before applying.
+                            Keep your profile updated to get the most relevant matches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-warning">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-search fa-4x text-muted mb-4"></i>
+                        <h3 class="text-muted mb-3">No Schemes Found</h3>
+                        <p class="lead text-muted mb-4">
+                            We couldn't find any {% if role == 'student' %}scholarships{% else %}funding schemes{% endif %} 
+                            matching your current profile criteria.
+                        </p>
+                        <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+                            <a href="{{ url_for('profile') }}" class="btn btn-{% if role == 'student' %}primary{% else %}success{% endif %} btn-lg">
+                                <i class="fas fa-edit me-2"></i>Update Profile
+                            </a>
+                            {% if role == 'student' %}
+                                <a href="{{ url_for('switch_role', new_role='entrepreneur') }}" class="btn btn-outline-success btn-lg">
+                                    <i class="fas fa-exchange-alt me-2"></i>Switch to Entrepreneur
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('switch_role', new_role='student') }}" class="btn btn-outline-primary btn-lg">
+                                    <i class="fas fa-exchange-alt me-2"></i>Switch to Student
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Statistics Card -->
+    <div class="row mt-5">
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-database fa-2x mb-2"></i>
+                    <h4>1000+</h4>
+                    <p class="mb-0">Total Schemes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <h4>5000+</h4>
+                    <p class="mb-0">Active Users</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-handshake fa-2x mb-2"></i>
+                    <h4>10000+</h4>
+                    <p class="mb-0">Successful Applications</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-sync-alt fa-2x mb-2"></i>
+                    <h4>Daily</h4>
+                    <p class="mb-0">Updates</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
