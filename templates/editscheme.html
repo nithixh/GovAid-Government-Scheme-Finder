@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Edit Scheme - GovAid{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card mx-auto" style="max-width: 900px;">
+        <div class="card-body">
+            <h4 class="card-title mb-3">Edit Scheme</h4>
+
+            {# `scheme` was fetched with SELECT * — index mapping:
+               0: scheme_id, 1: name, 2: eligibility, 3: provider, 4: benefits, 5: link, 6: target_group #}
+
+            <form method="POST" action="{{ url_for('edit_scheme', scheme_id=scheme[0]) }}">
+                <div class="mb-3">
+                    <label class="form-label">Scheme Name</label>
+                    <input type="text" name="name" class="form-control" required value="{{ scheme[1] }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Eligibility</label>
+                    <textarea name="eligibility" class="form-control" rows="3">{{ scheme[2] }}</textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Provider / Department</label>
+                        <input type="text" name="provider" class="form-control" value="{{ scheme[3] }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Target Group</label>
+                        <select name="target_group" class="form-select" required>
+                            <option value="student" {% if scheme[6] == 'student' %}selected{% endif %}>Student</option>
+                            <option value="entrepreneur" {% if scheme[6] == 'entrepreneur' %}selected{% endif %}>Entrepreneur</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Benefits</label>
+                    <input type="text" name="benefits" class="form-control" value="{{ scheme[4] }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Official Link</label>
+                    <input type="url" name="link" class="form-control" value="{{ scheme[5] }}">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
