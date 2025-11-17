@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-3">Find Your Perfect Government Scheme</h1>
+                <p class="lead mb-4">
+                    Whether you're a student seeking scholarships or an entrepreneur looking for funding, 
+                    GovAid matches you with personalized government opportunities.
+                </p>
+                {% if not session.get('user_id') %}
+                    <div class="d-flex gap-3">
+                        <a href="{{ url_for('register') }}" class="btn btn-light btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Get Started
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-tachometer-alt me-2"></i>View Dashboard
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="fas fa-university" style="font-size: 200px; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12 text-center mb-5">
+            <h2 class="display-5 fw-bold">How It Works</h2>
+            <p class="lead">Simple steps to find your perfect government scheme</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3">
+                        <i class="fas fa-user-plus fa-2x"></i>
+                    </div>
+                    <h4>1. Register</h4>
+                    <p class="text-muted">Create your account as a Student or Entrepreneur</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3">
+                        <i class="fas fa-edit fa-2x"></i>
+                    </div>
+                    <h4>2. Complete Profile</h4>
+                    <p class="text-muted">Fill in your details for personalized matching</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3">
+                        <i class="fas fa-search fa-2x"></i>
+                    </div>
+                    <h4>3. Discover Schemes</h4>
+                    <p class="text-muted">Get matched with relevant government opportunities</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-6 mb-4">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>For Students</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Merit-based scholarships</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Category-based financial aid</li>
+                        <li><i class="fas fa-check text-success me-2"></i>State & central government schemes</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Education loans and grants</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-rocket me-2"></i>For Entrepreneurs</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Startup funding schemes</li>
+                        <li><i class="fas fa-check text-success me-2"></i>MSME support programs</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Innovation grants</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Industry-specific funding</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
