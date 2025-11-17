@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Add Scheme - GovAid{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card mx-auto" style="max-width: 900px;">
+        <div class="card-body">
+            <h4 class="card-title mb-3">Add New Scheme</h4>
+
+            <form method="POST" action="{{ url_for('add_scheme') }}">
+                <div class="mb-3">
+                    <label class="form-label">Scheme Name</label>
+                    <input type="text" name="name" class="form-control" required placeholder="Ex: National Merit Scholarship">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Eligibility</label>
+                    <textarea name="eligibility" class="form-control" rows="3" placeholder="Describe eligibility (income limits, categories, age, state, education level, etc.)"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Provider / Department</label>
+                        <input type="text" name="provider" class="form-control" placeholder="Ministry / Department">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Target Group</label>
+                        <select name="target_group" class="form-select" required>
+                            <option value="student">Student</option>
+                            <option value="entrepreneur">Entrepreneur</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Benefits</label>
+                    <input type="text" name="benefits" class="form-control" placeholder="Ex: ₹12,000 per year / Up to ₹10 lakh funding">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Official Link</label>
+                    <input type="url" name="link" class="form-control" placeholder="https://example.gov/scheme">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Add Scheme
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
